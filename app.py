@@ -8,14 +8,14 @@ import os
 
 app = Flask(__name__)
 #Connect to Heroku Postgres Database
-app.config['Secret_Key'] = 'secret'
-app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get("DATABASE_URL")
+# app.config['Secret_Key'] = 'secret'
+# app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get("DATABASE_URL")
 
 #Initialize the database
-db = SQLAlchemy(app)
-# ma = Marshmallow(app)
-
-db.init_app(app)
+# db = SQLAlchemy(app)
+# # ma = Marshmallow(app)
+#
+# db.init_app(app)
 
 # @app.cli.command('db_create')
 # def db_create():
