@@ -55,7 +55,7 @@ def newRating():
         ratingName=request.form['ratingName']
         ratingScore=request.form['ratingScore']
 
-        rating = Rating(ratingName=ratingName,ratingScore=ratingScore)
+        rating = Rating(ratingname=ratingName,ratingscore=ratingScore)
 
         db.session.add(rating)
         db.session.commit
@@ -73,22 +73,6 @@ def url_variables(name: str, age: int):
     else:
         return jsonify(message="Welcome " + name + " you are old enough")
 
-
-# @app.route('/ratings', method=['get','post'] )
-# def ratings():
-#     if request.method == 'Post':
-#         name = request.form['name']
-#         score = request.form['score']
-#
-#         rating = Rating(name=name, score = score)
-#
-#         db.session.add(rating)
-#         db.session.commit
-#     elif request.method == 'Get':
-#         ratingList=Rating.query.all()
-#         # Serializing is the process of converting an object into text
-#         result = ratingsSchema.dump(ratingList)
-#         return jsonify(result)
 
 @app.route('/users')
 def users():
@@ -123,8 +107,8 @@ class User(db.Model):
 class Rating(db.Model):
     __tablename__ = "ratings"
     score_id = Column(Integer, primary_key=True)
-    ratingName = Column(String)
-    ratingScore = Column(Float)
+    ratingname = Column(String)
+    ratingscore = Column(Float)
 
 #This is used for JSON serialization.
 class UserSchema(ma.Schema):
@@ -135,7 +119,7 @@ class UserSchema(ma.Schema):
 
 class RatingSchema(ma.Schema):
     class Meta:
-        fields = ('score_id', 'ratingName', 'ratingScore')
+        fields = ('score_id', 'ratingname', 'ratingscore')
 
 
 userSchema = UserSchema
