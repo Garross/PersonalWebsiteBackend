@@ -13,7 +13,7 @@ app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get("DATABASE_URL")
 
 #Initialize the database
 db = SQLAlchemy(app)
-# ma = Marshmallow(app)
+ma = Marshmallow(app)
 
 db.init_app(app)
 
@@ -56,15 +56,6 @@ def hello_world():
 def super_simple():
     return 'Super Simple!'
 
-# @app.route('/parameters')
-# def parameters():
-#     name = request.args.get('name')
-#     age = int(request.args.get('age'))
-#     if age < 18:
-#         return jsonify(message="Sorry " + name + " you are not old enough"), 401
-#     else:
-#         return jsonify(message="Welcome " + name + " you are old enough")
-
 
 # using string instead of typical python str due to this being a Flask operation
 # Here we use variable rule matching instead of request/getting
@@ -93,6 +84,13 @@ def url_variables(name: str, age: int):
 #         result = ratingsSchema.dump(ratingList)
 #         return jsonify(result)
 
+@app.route('/users')
+def users():
+    userList=User.query.all()
+    result = usersSchema.dump(userList)
+    return jsonify(result)
+
+
 
 
 
@@ -101,11 +99,11 @@ def url_variables(name: str, age: int):
 #######
 
 # Time to make models using ORM(Object-relational mapping)
-# class User(db.Model):
-#     __tablename__ = "users"
-#     user_id = Column(Integer, primary_key=True)
-#     name = Column(String)
-#     email = Column(String, unique=True)
+class User(db.Model):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    email = Column(String, unique=True)
 
 
 
@@ -116,9 +114,9 @@ def url_variables(name: str, age: int):
 #     ratingScore = Column(Float)
 
 #This is used for JSON serialization.
-# class UserSchema(ma.Schema):
-#     class Meta:
-#         fields = ('user_id', 'name', 'email')
+class UserSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'name', 'email')
 
 
 
@@ -127,8 +125,8 @@ def url_variables(name: str, age: int):
 #         fields = ('score_id', 'ratingName', 'ratingScore')
 
 
-# userSchema = UserSchema
-# usersSchema = UserSchema(many=True)
+userSchema = UserSchema
+usersSchema = UserSchema(many=True)
 
 # ratingSchema = RatingSchema
 # ratingsSchema = RatingSchema(many=True)
