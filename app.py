@@ -53,7 +53,7 @@ def hello_world():
     return 'Hello World Garry Here!'
 
 @app.route('/super_simple')
-def hello_world():
+def super_simple():
     return 'Super Simple!'
 
 # @app.route('/parameters')
