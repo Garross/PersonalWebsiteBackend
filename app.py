@@ -100,9 +100,9 @@ def users():
     return jsonify(result)
 
 @app.route('/ratings')
-def users():
-    ratingsList=User.query.all()
-    result = usersSchema.dump(ratingsList)
+def ratings():
+    ratingsList=Rating.query.all()
+    result = ratingsSchema.dump(ratingsList)
     return jsonify(result)
 
 
