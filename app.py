@@ -48,11 +48,8 @@ db.init_app(app)
 # the @ symbol is a known as a decorator
 # In this case it is defining the route to our 'end-point' or url
 # This app will not server load any templates it is an API that is there to provide JSONS.
-@app.route('/')
-def hello_world():
-    return 'Hello World Garry Here!'
 
-@app.route('/newRating')
+@app.route('/')
 def newRating():
     if request.method == 'Post':
         ratingName=request.form['ratingName']
