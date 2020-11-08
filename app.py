@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 # Here to handle my database.
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, String, Integer, Float
@@ -52,9 +52,18 @@ db.init_app(app)
 def hello_world():
     return 'Hello World Garry Here!'
 
-@app.route('/super_simple')
-def super_simple():
-    return 'Super Simple!'
+@app.route('/newRating')
+def newRating():
+    if request.method == 'Post':
+        ratingName=request.form['ratingName']
+        ratingScore=request.form['ratingScore']
+
+        rating = Rating(ratingName=ratingName,ratingScore=ratingScore)
+
+        db.session.add(rating)
+        db.session.commit
+
+    return render_template('newRating.html')
 
 
 # using string instead of typical python str due to this being a Flask operation
@@ -90,6 +99,13 @@ def users():
     result = usersSchema.dump(userList)
     return jsonify(result)
 
+@app.route('/ratings')
+def users():
+    ratingsList=User.query.all()
+    result = usersSchema.dump(ratingsList)
+    return jsonify(result)
+
+
 
 
 
@@ -107,11 +123,11 @@ class User(db.Model):
 
 
 
-# class Rating(db.Model):
-#     __tablename__ = "ratings"
-#     score_id = Column(Integer, primary_key=True)
-#     ratingName = Column(String)
-#     ratingScore = Column(Float)
+class Rating(db.Model):
+    __tablename__ = "ratings"
+    score_id = Column(Integer, primary_key=True)
+    ratingName = Column(String)
+    ratingScore = Column(Float)
 
 #This is used for JSON serialization.
 class UserSchema(ma.Schema):
@@ -120,16 +136,16 @@ class UserSchema(ma.Schema):
 
 
 
-# class RatingSchema(ma.Schema):
-#     class Meta:
-#         fields = ('score_id', 'ratingName', 'ratingScore')
+class RatingSchema(ma.Schema):
+    class Meta:
+        fields = ('score_id', 'ratingName', 'ratingScore')
 
 
 userSchema = UserSchema
 usersSchema = UserSchema(many=True)
 
-# ratingSchema = RatingSchema
-# ratingsSchema = RatingSchema(many=True)
+ratingSchema = RatingSchema
+ratingsSchema = RatingSchema(many=True)
 
 # Entry point for running the script.
 if __name__ == '__main__':
