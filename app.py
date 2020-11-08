@@ -13,9 +13,9 @@ app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get("DATABASE_URL")
 
 #Initialize the database
 db = SQLAlchemy(app)
-ma = Marshmallow(app)
+# ma = Marshmallow(app)
 
-db.init_app(app)
+db.init_app()
 
 # @app.cli.command('db_create')
 # def db_create():
@@ -101,11 +101,11 @@ def url_variables(name: str, age: int):
 #######
 
 # Time to make models using ORM(Object-relational mapping)
-class User(db.Model):
-    __tablename__ = "users"
-    user_id = Column(Integer, primary_key=True)
-    name = Column(String)
-    email = Column(String, unique=True)
+# class User(db.Model):
+#     __tablename__ = "users"
+#     user_id = Column(Integer, primary_key=True)
+#     name = Column(String)
+#     email = Column(String, unique=True)
 
 
 
@@ -116,9 +116,9 @@ class User(db.Model):
 #     ratingScore = Column(Float)
 
 #This is used for JSON serialization.
-class UserSchema(ma.Schema):
-    class Meta:
-        fields = ('user_id', 'name', 'email')
+# class UserSchema(ma.Schema):
+#     class Meta:
+#         fields = ('user_id', 'name', 'email')
 
 
 
@@ -127,8 +127,8 @@ class UserSchema(ma.Schema):
 #         fields = ('score_id', 'ratingName', 'ratingScore')
 
 
-userSchema = UserSchema
-usersSchema = UserSchema(many=True)
+# userSchema = UserSchema
+# usersSchema = UserSchema(many=True)
 
 # ratingSchema = RatingSchema
 # ratingsSchema = RatingSchema(many=True)
