@@ -60,9 +60,9 @@ def ratings():
     result = ratingsSchema.dump(ratingsList)
     return jsonify(result)
 
-@app.route('/newRating')
+@app.route('/newRating', methods=['GET', 'POST'])
 def newRating():
-    if request.method == 'Post':
+    if request.method == 'POST':
         ratingName=request.form['ratingName']
         ratingScore=request.form['ratingScore']
 
@@ -70,8 +70,9 @@ def newRating():
 
         db.session.add(rating)
         db.session.commit
-
-    return render_template('newRating.html')
+        return 'Thank you for the rating!'
+    else:
+        return render_template('newRating.html')
 
 
 # using string instead of typical python str due to this being a Flask operation
