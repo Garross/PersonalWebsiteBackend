@@ -71,7 +71,7 @@ def newRating():
 
         db.session.add(rating)
         db.session.commit()
-        return ratingName +' '+ ratingScore
+        return 'Database Updated'
 
     return render_template('newRating.html')
 
@@ -97,6 +97,9 @@ def users():
 def ratingAvgScore(ratingname: str):
     rating=Rating.query.filter_by(ratingname = ratingname).all()
     if rating:
+        # for(object in rating){
+        #
+        # }
         result = ratingsSchema.dump(rating)
         return jsonify(result)
     else:
