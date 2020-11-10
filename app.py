@@ -64,15 +64,15 @@ def ratings():
 def newRating():
     if request.method == 'POST':
         ratingName=request.form['ratingName']
-        ratingScore=request.form['ratingScore']
+        ratingScore=float(request.form['ratingScore'])
 
         rating = Rating(ratingname=ratingName,ratingscore=ratingScore)
 
         db.session.add(rating)
         db.session.commit
-        return 'Thank you for the rating!'
-    else:
-        return render_template('newRating.html')
+
+
+    return render_template('newRating.html')
 
 
 # using string instead of typical python str due to this being a Flask operation
