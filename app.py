@@ -77,12 +77,12 @@ def newRating():
 # using string instead of typical python str due to this being a Flask operation
 # Here we use variable rule matching instead of request/getting
 
-@app.route('/url_variables/<string:name>/<int:age>')
-def url_variables(name: str, age: int):
-    if age < 18:
-        return jsonify(message="Sorry " + name + " you are not old enough"), 401
-    else:
-        return jsonify(message="Welcome " + name + " you are old enough")
+# @app.route('/url_variables/<string:name>/<int:age>')
+# def url_variables(name: str, age: int):
+#     if age < 18:
+#         return jsonify(message="Sorry " + name + " you are not old enough"), 401
+#     else:
+#         return jsonify(message="Welcome " + name + " you are old enough")
 
 
 @app.route('/users')
@@ -91,11 +91,14 @@ def users():
     result = usersSchema.dump(userList)
     return jsonify(result)
 
-@app.route('/ratings/<string: ratingname>')
-def ratingAvgScore():
-    rating=Rating.query.all()
-    result = ratingSchema.dump(rating)
-    return jsonify(result)
+@app.route('/ratings/<string:ratingname>')
+def ratingAvgScore(ratingname: str):
+    rating=Rating.query.filter_by(ratingname = ratingname).all()
+    if rating:
+        result = ratingsSchema.dump(rating)
+        return jsonify(result)
+    else:
+        return jsonify(message ="Sorry, no such rating found."), 404
 
 
 
