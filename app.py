@@ -71,9 +71,7 @@ def newRating():
 
         db.session.add(rating)
         db.session.commit()
-        result = ratingSchema.dump(rating)
-        return jsonify(result), 201
-
+        return ratingName +' '+ ratingScore
 
     return render_template('newRating.html')
 
