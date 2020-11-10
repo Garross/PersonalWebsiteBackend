@@ -66,10 +66,13 @@ def newRating():
         ratingName=request.form['ratingName']
         ratingScore=float(request.form['ratingScore'])
 
+
         rating = Rating(ratingname=ratingName,ratingscore=ratingScore)
 
         db.session.add(rating)
         db.session.commit
+        result = ratingsSchema.dump(rating)
+        return jsonify(result)
 
 
     return render_template('newRating.html')
