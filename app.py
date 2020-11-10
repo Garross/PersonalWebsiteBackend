@@ -10,12 +10,14 @@ app = Flask(__name__)
 #Connect to Heroku Postgres Database
 app.config['Secret_Key'] = 'secret'
 app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get("DATABASE_URL")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 
 #Initialize the database
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+
 
 db.init_app(app)
 
@@ -52,8 +54,13 @@ db.init_app(app)
 # the @ symbol is a known as a decorator
 # In this case it is defining the route to our 'end-point' or url
 # This app will not server load any templates it is an API that is there to provide JSONS.
-
 @app.route('/')
+def ratings():
+    ratingsList=Rating.query.all()
+    result = ratingsSchema.dump(ratingsList)
+    return jsonify(result)
+
+@app.route('/newRating')
 def newRating():
     if request.method == 'Post':
         ratingName=request.form['ratingName']
@@ -84,10 +91,10 @@ def users():
     result = usersSchema.dump(userList)
     return jsonify(result)
 
-@app.route('/ratings')
-def ratings():
-    ratingsList=Rating.query.all()
-    result = ratingsSchema.dump(ratingsList)
+@app.route('/ratings/<string: ratingname>')
+def ratingAvgScore():
+    rating=Rating.query.all()
+    result = ratingSchema.dump(rating)
     return jsonify(result)
 
 
